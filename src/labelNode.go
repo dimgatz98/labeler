@@ -20,7 +20,7 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.Label) (*labeler.
 	log.Printf("Received label from client: %v", label)
 
 	slice := strings.Split(label.Label, ":")
-	if len(slice) > 1 || len(slice) < 1 {
+	if len(slice) > 2 || len(slice) < 2 {
 		return nil, fmt.Errorf("Invalid label")
 	}
 
