@@ -1,0 +1,15 @@
+syntax = "proto3";
+package labeler;
+
+service LabelerService {
+    rpc LabelNode(Label) returns (NodeInfo) {}
+}
+
+message Label {
+    string node = 1;
+    string label = 2;
+}
+
+message NodeInfo {
+    string info = 1;
+}
