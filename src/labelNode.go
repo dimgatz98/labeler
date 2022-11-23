@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/net/context"
 	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/rest"
 
 	"strings"
 )
@@ -24,7 +24,7 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.Label) (*labeler.
 		return nil, fmt.Errorf("Invalid label")
 	}
 
-	config, err := clientcmd.BuildConfigFromFlags("", "/home/dimitris/.kube/config")
+	config, err := rest.InClusterConfig()
 	if err != nil {
 		return nil, err
 	}
