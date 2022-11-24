@@ -9,6 +9,7 @@ import (
 	"golang.org/x/net/context"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 
 	"strings"
 )
@@ -24,9 +25,14 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.NodeLabel) (*labe
 		return nil, fmt.Errorf("Invalid label")
 	}
 
-	config, err := rest.InClusterConfig()
+	var config *rest.Config
+	var err error
+	config, err = rest.InClusterConfig()
 	if err != nil {
-		return nil, err
+		config, err = clientcmd.BuildConfigFromFlags("", label.KubeConfig)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	clientset, err := kubernetes.NewForConfig(config)
@@ -59,9 +65,14 @@ func (s *Server) LabelPod(ctx context.Context, label *labeler.PodLabel) (*labele
 		return nil, fmt.Errorf("Invalid label")
 	}
 
-	config, err := rest.InClusterConfig()
+	var config *rest.Config
+	var err error
+	config, err = rest.InClusterConfig()
 	if err != nil {
-		return nil, err
+		config, err = clientcmd.BuildConfigFromFlags("", label.KubeConfig)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	clientset, err := kubernetes.NewForConfig(config)
