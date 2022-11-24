@@ -2,14 +2,21 @@ syntax = "proto3";
 package labeler;
 
 service LabelerService {
-    rpc LabelNode(Label) returns (NodeInfo) {}
+    rpc LabelNode(NodeLabel) returns (Info) {}
+    rpc LabelPod(PodLabel) returns (Info) {}
 }
 
-message Label {
+message NodeLabel {
     string node = 1;
     string label = 2;
 }
 
-message NodeInfo {
+message PodLabel {
+    string namespace = 1;
+    string pod = 2;
+    string label = 3;
+}
+
+message Info {
     string info = 1;
 }

@@ -10,7 +10,7 @@ metadata:
   name: labeler-role
 rules:
   - apiGroups: [""]
-    resources: ["nodes"]
+    resources: ["nodes", "pods"]
     verbs: ["patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -25,3 +25,23 @@ roleRef:
   kind: ClusterRole
   name: labeler-role
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: labeler-pod
+  namespace: labeler
+  labels:
+    app.kubernetes.io/name: labeler  
+spec:
+  terminationGracePeriodSeconds: 30
+  serviceAccountName: labeler-account
+  containers:
+  - name: labeler-container
+    image: tzourhs/labeler:1.2
+    env:
+    command: ["/labeler/bin/main"]
+    args: []
+    ports:
+    - name: labeler-port
+      containerPort: 9000
