@@ -38,7 +38,7 @@ spec:
   serviceAccountName: labeler-account
   containers:
   - name: labeler-container
-    image: tzourhs/labeler:1.2
+    image: tzourhs/labeler:1.4
     env:
     command: ["/labeler/bin/main"]
     args: []

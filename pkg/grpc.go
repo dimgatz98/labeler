@@ -18,8 +18,6 @@ type Server struct {
 }
 
 func (s *Server) LabelNode(ctx context.Context, label *labeler.NodeLabel) (*labeler.Info, error) {
-	log.Printf("Received label from client: %v", label)
-
 	slice := strings.Split(label.Label, ":")
 	if len(slice) > 2 || len(slice) < 2 {
 		return nil, fmt.Errorf("Invalid label")
@@ -42,8 +40,8 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.NodeLabel) (*labe
 
 	params := PatchNodeParam{
 		Node:         label.Node,
-		OperatorType: "replace",
-		OperatorPath: "/metadata/labels/",
+		OperatorType: label.OpType,
+		OperatorPath: label.OpPath,
 		OperatorData: map[string]interface{}{
 			slice[0]: slice[1],
 		},
@@ -53,7 +51,7 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.NodeLabel) (*labe
 		return nil, err
 	}
 
-	log.Println(params)
+	log.Printf("LabelNode params: %+v", params)
 	return &labeler.Info{Info: fmt.Sprintf("NodeInfo:\n%v", res)}, nil
 }
 
@@ -81,8 +79,8 @@ func (s *Server) LabelPod(ctx context.Context, label *labeler.PodLabel) (*labele
 	params := PatchPodParam{
 		Namespace:    label.Namespace,
 		Pod:          label.Pod,
-		OperatorType: "replace",
-		OperatorPath: "/metadata/labels/",
+		OperatorType: label.OpType,
+		OperatorPath: label.OpPath,
 		OperatorData: map[string]interface{}{
 			slice[0]: slice[1],
 		},
@@ -92,6 +90,6 @@ func (s *Server) LabelPod(ctx context.Context, label *labeler.PodLabel) (*labele
 		return nil, err
 	}
 
-	log.Println(params)
+	log.Printf("LabelPod params: %+v", params)
 	return &labeler.Info{Info: fmt.Sprintf("NodeInfo:\n%v", res)}, nil
 }

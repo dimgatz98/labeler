@@ -10,6 +10,8 @@ message NodeLabel {
     string node = 1;
     string label = 2;
     string kubeConfig = 3;
+    string opType = 4;
+    string opPath = 5;
 }
 
 message PodLabel {
@@ -17,6 +19,8 @@ message PodLabel {
     string pod = 2;
     string label = 3;
     string kubeConfig = 4;
+    string opType = 5;
+    string opPath = 6;
 }
 
 message Info {

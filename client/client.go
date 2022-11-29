@@ -20,6 +20,8 @@ func main() {
 	nodePort := parser.String("p", "port", &argparse.Options{Default: "9000", Help: "Node port"})
 	label := parser.String("l", "label", &argparse.Options{Required: true, Help: "String used for label in the form `(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?`:`(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?`"})
 	config := parser.String("c", "kube-config", &argparse.Options{Default: "", Help: "Kubernetes configuration path, only needed when running locally"})
+	opType := parser.String("t", "operator-type", &argparse.Options{Default: "replace", Help: "Operator type for patch. Learn more here: https://www.rfc-editor.org/rfc/rfc6902"})
+	opPath := parser.String("a", "operator-path", &argparse.Options{Default: "/metadata/labels/", Help: "Path of the resource to be patched"})
 
 	pod := parser.NewCommand("pod", "Label a pod")
 	namespace := pod.String("n", "namespace", &argparse.Options{Default: "default", Help: "Namespace of the pod to be labeled"})
@@ -50,6 +52,8 @@ func main() {
 			Pod:        *podName,
 			Label:      *label,
 			KubeConfig: *config,
+			OpType:     *opType,
+			OpPath:     *opPath,
 		}
 		response, err := c.LabelPod(context.Background(), &data)
 		if err != nil {
@@ -62,6 +66,8 @@ func main() {
 			Node:       *nodeName,
 			Label:      *label,
 			KubeConfig: *config,
+			OpType:     *opType,
+			OpPath:     *opPath,
 		}
 		response, err := c.LabelNode(context.Background(), &data)
 		if err != nil {
