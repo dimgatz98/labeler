@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	labeler "github.com/dimgatz98/labeler/src/server"
+	labeler "github.com/dimgatz98/labeler/pkg/server"
 
 	"google.golang.org/grpc"
 )

@@ -10,7 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	labeler "github.com/dimgatz98/labeler/src/server"
+	labeler "github.com/dimgatz98/labeler/pkg/server"
 )
 
 func main() {

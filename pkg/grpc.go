@@ -4,7 +4,7 @@ import (
 	fmt "fmt"
 	"log"
 
-	labeler "github.com/dimgatz98/labeler/src/server"
+	labeler "github.com/dimgatz98/labeler/pkg/server"
 
 	"golang.org/x/net/context"
 	"k8s.io/client-go/kubernetes"
@@ -58,8 +58,6 @@ func (s *Server) LabelNode(ctx context.Context, label *labeler.NodeLabel) (*labe
 }
 
 func (s *Server) LabelPod(ctx context.Context, label *labeler.PodLabel) (*labeler.Info, error) {
-	log.Printf("Received label from client: %v", label)
-
 	slice := strings.Split(label.Label, ":")
 	if len(slice) > 2 || len(slice) < 2 {
 		return nil, fmt.Errorf("Invalid label")
